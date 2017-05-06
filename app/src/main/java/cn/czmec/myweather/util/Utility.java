@@ -2,6 +2,8 @@ package cn.czmec.myweather.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +11,7 @@ import org.json.JSONObject;
 import cn.czmec.myweather.db.City;
 import cn.czmec.myweather.db.County;
 import cn.czmec.myweather.db.Province;
+import cn.czmec.myweather.gson.Weather;
 
 /**
  * Created by mhf on 2017/5/5.
@@ -54,7 +57,7 @@ public class Utility {
         }
         return false;
     }
-    public static boolean handleCounty(String response,int cityId) {
+    public static boolean handleCountyResponse(String response,int cityId) {
         try {
             JSONArray allCountys = new JSONArray(response);
             for (int i = 0; i < allCountys.length(); i++) {
@@ -70,5 +73,17 @@ public class Utility {
             e.printStackTrace();
         }
         return false;
+    }
+    public static Weather handleWeatherResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeathe");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
