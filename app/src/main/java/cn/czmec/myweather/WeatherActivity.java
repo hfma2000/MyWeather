@@ -1,5 +1,6 @@
 package cn.czmec.myweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -26,6 +27,7 @@ import java.io.IOException;
 
 import cn.czmec.myweather.gson.Forecast;
 import cn.czmec.myweather.gson.Weather;
+import cn.czmec.myweather.service.AutoUpdateService;
 import cn.czmec.myweather.util.HttpUtil;
 import cn.czmec.myweather.util.Utility;
 import okhttp3.Call;
@@ -186,6 +188,9 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
+
     }
 
     private void loadBingPic() {
